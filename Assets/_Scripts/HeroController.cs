@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 /*
  * Controller class for the Hero
@@ -75,7 +76,7 @@ public class HeroController : MonoBehaviour {
 		this._deathSound = this._audioSources [2];
 		this._enemyDeath = this._audioSources [3];
 		this.getPosition ();
-		this._spawn (-350, 550, 0);
+		//this._spawn (-350, 550, 0);
 	}
 
 	void FixedUpdate () {
@@ -209,10 +210,15 @@ public class HeroController : MonoBehaviour {
 
 	//method that takes care of the player death (fall or enemy)
 	private void _playerDeath(){
+		if (SceneManager.GetActiveScene().buildIndex == 3) {
+			this._spawn (-353, 229, 0);
+			this._icePlatform();
+		} else {
 		if (this._transform.position.x < 1400) {
 			this._spawnBridge ();
 			this._spawnBoxes ();
 			this._spawn (-366, 600, 0);
+
 		} 
 		if( this._transform.position.x > 1400f && this._transform.position.x < 3355) {			
 			this._spawn (1520, 600, 0);
@@ -220,6 +226,7 @@ public class HeroController : MonoBehaviour {
 		if (this._transform.position.x > 3355) {
 			this._spawn (3355, 600, 0);
 			this._spawnFloats ();
+		}
 		}
 	}
 	private void _spawn(float x, float y, float z){		
@@ -259,6 +266,18 @@ public class HeroController : MonoBehaviour {
 			boxObject.gameObject.SetActive (true);
 		} 
 	} 
+
+	private void _icePlatform() {
+		GameObject fallingiceplatform = GameObject.FindGameObjectWithTag ("fallingplatforml3");
+		fallingiceplatform.transform.position = new Vector3 (2281f, -202f, 0);
+
+		GameObject fallingiceplatform1 = GameObject.FindGameObjectWithTag ("fallingplatforml3_1");
+		fallingiceplatform1.transform.position = new Vector3 (2537f, -202f, 0);
+
+		GameObject fallingiceplatform2 = GameObject.FindGameObjectWithTag ("fallingplatforml3_2");
+		fallingiceplatform2.transform.position = new Vector3 (4186f, -133f, 0);
+	
+	}
 
 	//to get the inital position of float objects
 	private void getPosition(){
